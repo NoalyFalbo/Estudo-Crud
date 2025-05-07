@@ -52,12 +52,12 @@ void EscolherOpcao()
         case 2:
             CadastrarTarefa();
             break;
-        // case 3:
-        //     AtualizarTarefa();
-        //     break;
-        // case 4:
-        //     ExcluirTarefa();
-        //     break;
+        case 3:
+            AtualizarTarefa();
+            break;
+        case 4:
+            ExcluirTarefa();
+            break;
         case 5:
             Console.WriteLine("Ate logo!");
             break;
@@ -80,48 +80,129 @@ void VisualizarTarefas()
         Console.WriteLine("\nVoce nao possui tarefas cadastradas.");
 }
 
+
 void CadastrarTarefa()
 {
     Console.Clear();
-    Console.WriteLine("Digite a tarefa que gostaria de cadastrar");
-    string nomeTarefa = Console.ReadLine();
-    Console.Clear();
-    Console.WriteLine("Tarefa cadastrada com sucesso!");
-    Console.WriteLine("Deseja cadastrar outra tarefa? Sim para cadastrar ou nao para voltar ao menu");
+    string resposta = "sim";
 
-    if (Console.ReadLine() == "sim")
+    while (resposta == "sim")
     {
-        Console.WriteLine("Digite uma nova tarefa: ");
-        Console.ReadLine();
+        Console.WriteLine("Digite a tarefa que gostaria de cadastrar:");
+        string nomeTarefa = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(nomeTarefa))
+        {
+            tarefas.Add(nomeTarefa);
+            Console.WriteLine("Tarefa cadastrada com sucesso!");
+        }
+        else
+        {
+            Console.WriteLine("Tarefa inválida. Tente novamente.");
+            continue;
+        }
+
+        Console.WriteLine("Deseja cadastrar outra tarefa? Digite sim para cadastrar ou nao para voltar ao menu");
+        resposta = Console.ReadLine()?.Trim().ToLower();
     }
-
-
-
-
-    if (string.IsNullOrWhiteSpace(nomeTarefa))
-        Console.WriteLine("Opcao invalida");
-
-
-
-
-
-
-    // aguardar o usuario digitar a tarefa
-    // perguntar se o usuario deseja cadastrar outra tarefa
-    // se sim informar ao usuario para digitar uma nova tarefa
-    // se nao perguntar ao usuario se deseja sair ou voltar ao menu
-
 
 }
 
-// void AtualizarTarefa()
-// {
+void AtualizarTarefa()
+{
+    Console.Clear();
+    Console.WriteLine("Você escolheu atualizar uma tarefa.");
 
-// }
-// void ExcluirTarefa()
-// {
+    if (!tarefas.Any())
+    {
+        Console.WriteLine("Nenhuma tarefa cadastrada para atualizar.");
+        return;
+    }
 
-// }
+    Console.WriteLine("Tarefas cadastradas:");
+    for (int i = 0; i < tarefas.Count; i++)
+    {
+        Console.WriteLine($"{i + 1} - {tarefas[i]}");
+    }
+
+    Console.WriteLine("Digite o número da tarefa que deseja atualizar:");
+    string entrada = Console.ReadLine();
+
+    bool conversaoValida = int.TryParse(entrada, out int numeroTarefa);
+    bool indiceValido = numeroTarefa >= 1 && numeroTarefa <= tarefas.Count;
+
+    if (!conversaoValida || !indiceValido)
+    {
+        Console.WriteLine("Número inválido. Retornando ao menu.");
+        return;
+    }
+
+    int indice = numeroTarefa - 1;
+
+    Console.WriteLine($"Digite a nova descrição para a tarefa \"{tarefas[indice]}\":");
+    string novaDescricao = Console.ReadLine();
+
+    if (string.IsNullOrWhiteSpace(novaDescricao))
+    {
+        Console.WriteLine("Descrição inválida. A tarefa não foi atualizada.");
+        return;
+    }
+
+    tarefas[indice] = novaDescricao;
+    Console.WriteLine("Tarefa atualizada com sucesso!");
+}
+
+void ExcluirTarefa()
+{
+         Console.Clear();
+    Console.WriteLine("Você escolheu excluir uma tarefa.");
+
+    if (!tarefas.Any())
+    {
+        Console.WriteLine("Nenhuma tarefa cadastrada para excluir.");
+        Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
+        Console.ReadKey();
+        return;
+    }
+
+    Console.WriteLine("Tarefas cadastradas:");
+    for (int i = 0; i < tarefas.Count; i++)
+    {
+        Console.WriteLine($"{i + 1} - {tarefas[i]}");
+    }
+
+    Console.WriteLine("Digite o número da tarefa que deseja excluir:");
+    string entrada = Console.ReadLine();
+
+    bool numeroDigitadoValido = int.TryParse(entrada, out int numeroTarefa);
+    bool indiceValido = numeroTarefa >= 1 && numeroTarefa <= tarefas.Count;
+
+    if (!numeroDigitadoValido || !indiceValido)
+    {
+        Console.WriteLine("Número inválido. Retornando ao menu.");
+        Console.ReadKey();
+        return;
+    }
+
+    int ExcluirTarefa = numeroTarefa - 1;
+
+    Console.WriteLine($"Tem certeza que deseja excluir a tarefa \"{tarefas[ExcluirTarefa]}\"? Digite sim para excluir ou nao para voltar ao menu");
+    string confirmacao = Console.ReadLine()?.Trim().ToLower();
+
+    if (confirmacao == "s")
+    {
+        tarefas.RemoveAt(ExcluirTarefa);
+        Console.WriteLine("Tarefa excluída com sucesso!");
+    }
+    else
+    {
+        Console.WriteLine("A tarefa não foi excluída.");
+    }
+
+    Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
+    Console.ReadKey();
+
+}
 
 
 #endregion
