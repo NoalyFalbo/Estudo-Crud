@@ -1,4 +1,4 @@
-﻿#region Variaveis globais
+﻿﻿#region Variaveis globais
 List<(int, string)> opcoesMenu = new List<(int, string)>
 {
     (1, "Visualizar tarefa"),
@@ -33,6 +33,7 @@ void App()
 
 void ChamarMenu()
 {
+    Console.Clear();
     Console.WriteLine("Digite a opcao que deseja: ");
     foreach (var opcao in opcoesMenu)
         Console.WriteLine(opcao.Item1 + " - " + opcao.Item2);
@@ -66,6 +67,7 @@ void EscolherOpcao()
             break;
         case 5:
             Console.WriteLine("Ate logo!");
+            continuar = false;
             break;
 
     }
@@ -83,8 +85,12 @@ void VisualizarTarefas()
             Console.WriteLine(tarefa);
     }
     else
+    {
         Console.WriteLine("\nVoce nao possui tarefas cadastradas.");
-        Console.Clear();
+    }
+    Console.WriteLine("Aperte qualquer tecla para continuar.");
+    Console.ReadKey();
+    Console.Clear();
 }
 
 
@@ -196,7 +202,7 @@ void ExcluirTarefa()
     Console.WriteLine($"Tem certeza que deseja excluir a tarefa \"{tarefas[ExcluirTarefa]}\"? Digite sim para excluir ou nao para voltar ao menu");
     string confirmacao = Console.ReadLine()?.Trim().ToLower();
 
-    if (confirmacao == "s")
+    if (confirmacao == "sim")
     {
         tarefas.RemoveAt(ExcluirTarefa);
         Console.WriteLine("Tarefa excluída com sucesso!");
@@ -213,4 +219,3 @@ void ExcluirTarefa()
 
 
 #endregion
-
