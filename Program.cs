@@ -9,6 +9,8 @@ List<(int, string)> opcoesMenu = new List<(int, string)>
 };
 
 List<string> tarefas = new List<string>();
+
+bool continuar = true;
 #endregion
 
 #region Chamada do Programa
@@ -18,8 +20,12 @@ void App()
 {
     Console.Clear();
     Console.WriteLine("Bem vindo ao World Of Points! ");
-    ChamarMenu();
-    EscolherOpcao();
+
+    while (continuar)
+    {
+        ChamarMenu();
+        EscolherOpcao();
+    }
 }
 #endregion
 
@@ -70,7 +76,7 @@ void VisualizarTarefas()
     Console.Clear();
     Console.WriteLine("Voce escolheu visualizar tarefa ");
 
-    if (tarefas.Any())
+    if (tarefas.Count != 0)
     {
         Console.WriteLine("Segue abaixo as tarefas cadastradas:");
         foreach (string tarefa in tarefas)
@@ -78,6 +84,7 @@ void VisualizarTarefas()
     }
     else
         Console.WriteLine("\nVoce nao possui tarefas cadastradas.");
+        Console.Clear();
 }
 
 
@@ -103,7 +110,7 @@ void CadastrarTarefa()
         }
 
         Console.WriteLine("Deseja cadastrar outra tarefa? Digite sim para cadastrar ou nao para voltar ao menu");
-        resposta = Console.ReadLine()?.Trim().ToLower();
+        resposta = Console.ReadLine().Trim().ToLower();
     }
 
 }
@@ -113,7 +120,7 @@ void AtualizarTarefa()
     Console.Clear();
     Console.WriteLine("Você escolheu atualizar uma tarefa.");
 
-    if (!tarefas.Any())
+    if (tarefas.Count == 0)
     {
         Console.WriteLine("Nenhuma tarefa cadastrada para atualizar.");
         return;
@@ -154,7 +161,7 @@ void AtualizarTarefa()
 
 void ExcluirTarefa()
 {
-         Console.Clear();
+     Console.Clear();
     Console.WriteLine("Você escolheu excluir uma tarefa.");
 
     if (!tarefas.Any())
@@ -199,7 +206,7 @@ void ExcluirTarefa()
         Console.WriteLine("A tarefa não foi excluída.");
     }
 
-    Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
+    Console.WriteLine("Pressione qualquer tecla para voltar ao menu");
     Console.ReadKey();
 
 }
